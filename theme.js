@@ -13,6 +13,8 @@ window.HD_THEME = {
     warn: { bg: '#FFF3C4', border: '#D9A400', ink: '#4A3800' },
     alert: { bg: '#FDE3DF', border: '#C0392B', ink: '#5E1A12' },
   },
+  // カレンダーで「タオルを交換した日」に付ける印の色（2人の色・AYAトレの青と混ざらない色）
+  towelMark: '#5B4FA0',
   font: "'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif",
 };
 
@@ -35,5 +37,6 @@ window.HD_THEME = {
     s.setProperty(`--towel-${level}-border`, c.border);
     s.setProperty(`--towel-${level}-ink`, c.ink);
   }
+  s.setProperty('--towel-mark', t.towelMark);
   s.setProperty('--font', t.font);
 })(window.HD_THEME);

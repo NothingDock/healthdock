@@ -148,6 +148,117 @@ main { max-width: 720px; margin: 0 auto; padding: 12px 16px 24px; }
 .towel-card.busy { opacity: .6; }
 .rate-line { font-size: 12px; color: var(--ink-soft); text-align: right; }
 
+/* 月間カレンダー（タオルを交換した日） */
+.cal { padding: 14px 12px 12px; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; margin: 0 2px 10px; }
+.cal-head h2 { margin: 0; font-size: 15px; font-weight: 700; }
+.cal-nav { display: flex; align-items: center; gap: 4px; }
+.cal-nav .m { font-size: 15px; font-weight: 700; min-width: 92px; text-align: center; }
+.cal-nav button { width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-soft); }
+.cal-nav button:active { background: var(--muted-bg); }
+.cal-nav button:disabled { opacity: .3; cursor: default; }
+.cal-dow, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal-dow div { text-align: center; font-size: 11px; font-weight: 700; color: var(--ink-soft); padding-bottom: 6px; }
+.cal-dow div:first-child { color: #B5443A; }
+.cal-dow div:last-child { color: #2F6FB0; }
+.cal-grid { row-gap: 4px; }
+.cal-day { height: 46px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border-radius: 10px; }
+.cal-day .n { width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.cal-day .c { font-size: 9px; line-height: 1; height: 9px; font-weight: 700; color: var(--towel-mark); }
+.cal-day:disabled { cursor: default; }
+.cal-day.future .n { color: rgba(31,42,51,.3); }
+.cal-day.swap .n { background: var(--towel-mark); color: #fff; font-weight: 700; }
+.cal-day.today .n { box-shadow: 0 0 0 2px var(--ink); }
+.cal-day.today.swap .n { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--ink); }
+.cal-day.sel { outline: 2px solid var(--ink); outline-offset: -2px; }
+.cal-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font-size: 11px; color: var(--ink-soft); }
+.cal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.cal-legend i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+.cal-legend i.sel { border-radius: 4px; box-shadow: inset 0 0 0 2px var(--ink); }
+
+/* グラフ */
+.seg { display: inline-flex; background: var(--muted-bg); border-radius: 10px; padding: 3px; gap: 2px; }
+.seg button { font-size: 13px; font-weight: 500; color: var(--ink-soft); padding: 6px 12px; border-radius: 8px; white-space: nowrap; }
+.seg button.on { background: #fff; color: var(--ink); font-weight: 700; box-shadow: 0 1px 2px rgba(31,42,51,.1); }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.chart-card { padding: 12px 10px 8px; position: relative; }
+.legend { display: flex; gap: 14px; font-size: 12px; font-weight: 700; padding: 0 4px 6px; flex-wrap: wrap; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend .goal i { height: 0; border-top: 2px dashed var(--ink-soft); }
+.chart { position: relative; touch-action: pan-y; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart .axis { font-size: 10px; fill: var(--ink-soft); font-family: var(--font); }
+.tip { position: absolute; top: 4px; pointer-events: none; background: var(--ink); color: #fff; font-size: 12px; line-height: 1.5; padding: 6px 9px; border-radius: 8px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.tip .k { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.chart-empty { text-align: center; color: var(--ink-soft); font-size: 13px; padding: 50px 0; }
+.sum { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.sum-card { border-radius: var(--radius); padding: 12px; border: 1px solid; }
+.sum-card.kenta { background: var(--kenta-soft); border-color: var(--kenta-border); }
+.sum-card.saori { background: var(--saori-soft); border-color: var(--saori-border); }
+.sum-card h3 { margin: 0 0 8px; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.sum-card.kenta h3 { color: var(--kenta); }
+.sum-card.saori h3 { color: var(--saori); }
+.sum-card .big { font-size: 24px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.sum-card .big small { font-size: 12px; font-weight: 500; color: var(--ink-soft); margin-left: 2px; }
+.sum-card dl { margin: 8px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; font-size: 12px; }
+.sum-card dt { color: var(--ink-soft); }
+.sum-card dd { margin: 0; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.goal-set { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-soft); }
+.goal-set select { border: 1px solid var(--line-strong); border-radius: 8px; padding: 4px 6px; background: #fff; }
+@media (max-width: 340px) { .sum { grid-template-columns: 1fr; } }
+.wlist { margin-top: 12px; display: flex; flex-direction: column; overflow: hidden; min-height: 260px; }
+.wl-head, .wl-row { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 8px; padding: 0 14px; align-items: center; }
+.wl-head { height: 40px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: var(--ink-soft); border-bottom: 1px solid var(--line-strong); }
+.wl-head span:not(:first-child), .wl-row span:not(:first-child) { text-align: right; }
+.wl-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.wl-row { height: 42px; font-size: 14px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.wl-row .none { color: var(--ink-soft); }
+.wl-more { display: block; width: 100%; padding: 12px; font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.wl-empty { text-align: center; color: var(--ink-soft); font-size: 13px; padding: 40px 0; }
+
+/* AYAトレ */
+.aya-hero { padding: 20px 18px 18px; text-align: center; }
+.aya-hero .label { font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.aya-hero .day { font-size: 64px; font-weight: 700; line-height: 1.05; color: var(--aya); letter-spacing: .01em; font-variant-numeric: tabular-nums; margin: 4px 0 2px; }
+.aya-hero .day small { font-size: 26px; margin-right: 2px; }
+.aya-hero .day.done { color: var(--aya-done); }
+.aya-hero .sub { font-size: 14px; color: var(--ink-soft); }
+.aya-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.aya-actions .btn { width: 100%; height: 50px; font-size: 16px; }
+.btn-aya { background: var(--aya); color: #fff; }
+.btn-check { background: var(--aya-done); color: #fff; }
+.btn-check:disabled, .btn-aya[aria-disabled=true] { opacity: .45; cursor: default; }
+.link-form { display: flex; gap: 8px; margin-top: 10px; }
+.link-form input { flex: 1; min-width: 0; height: 44px; border-radius: 10px; border: 1.5px solid var(--line-strong); padding: 0 10px; font-size: 14px; background: #fff; }
+.link-form input:focus { outline: none; border-color: var(--aya); }
+.link-form .btn { height: 44px; padding: 0 14px; font-size: 14px; }
+.hint { font-size: 12px; color: var(--ink-soft); margin-top: 6px; text-align: left; }
+.hint.err { color: var(--danger); }
+details.next-link { margin-top: 14px; text-align: left; font-size: 13px; }
+details.next-link summary { color: var(--ink-soft); cursor: pointer; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 8px; text-align: center; }
+.stat .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stat .v small { font-size: 12px; margin-left: 1px; color: var(--ink-soft); font-weight: 500; }
+.stat .k { font-size: 11px; color: var(--ink-soft); }
+.aya-list { list-style: none; margin: 0; padding: 4px 0; }
+.aya-list li { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.aya-list li:last-child { border-bottom: none; }
+.aya-list li.current { background: rgba(47,111,176,.07); }
+.mark { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid var(--line-strong); }
+.mark.done { background: var(--aya-done); border-color: var(--aya-done); color: #fff; }
+.current .mark { border-color: var(--aya); }
+.aya-list .dn { font-weight: 700; color: var(--aya); width: 62px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.aya-list .dd { flex: 1; font-size: 13px; color: var(--ink-soft); min-width: 0; }
+.aya-list .current .dd { color: var(--aya); font-weight: 700; }
+.aya-list .vid { font-size: 13px; font-weight: 700; color: var(--aya); text-decoration: none; padding: 4px 8px; border-radius: 8px; background: rgba(47,111,176,.08); white-space: nowrap; }
+.aya-list .vid.none { background: none; color: var(--ink-soft); font-weight: 400; }
+.undo { font-size: 12px; color: var(--danger); text-decoration: underline; white-space: nowrap; }
+.loading { text-align: center; color: var(--ink-soft); padding: 40px 0; font-size: 14px; }
+
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 12px); z-index: 40; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.18); max-width: calc(100% - 32px); }
+
 /* グラフ */
 .seg { display: inline-flex; background: var(--muted-bg); border-radius: 10px; padding: 3px; gap: 2px; }
 .seg button { font-size: 13px; font-weight: 500; color: var(--ink-soft); padding: 6px 12px; border-radius: 8px; white-space: nowrap; }
@@ -598,7 +709,8 @@ function updateFoot() {
       <span class="go">›</span>
     </button>
     ${towelCardHtml()}
-    ${rec && rec.rate != null ? `<div class="rate-line">達成率 <b class="tnum">${Math.round(rec.rate)}%</b></div>` : ''}`;
+    ${rec && rec.rate != null ? `<div class="rate-line">達成率 <b class="tnum">${Math.round(rec.rate)}%</b></div>` : ''}
+    ${calendarHtml()}`;
   if (towelLast(S.date) === undefined && !S.towel.loading && S.towel.failedFor !== S.date && S.online) {
     loadTowel(S.date).then(() => { saveCache(); updateFoot(); }).catch(e => { console.error('[towel]', e); updateFoot(); });
   }
@@ -752,10 +864,74 @@ async function saveNow(p, force) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// 月間カレンダー（記録タブの一番下。タオルを交換した日に印を付ける）
+// ---------------------------------------------------------------------------
+let calMonth = null;            // 表示中の月 'YYYY-MM'（表示日の月に合わせる）
+const monthsLoaded = new Set(); // 直近 90 日より前で、追加取得した月
+
+function calendarHtml() {
+  if (!calMonth) calMonth = S.date.slice(0, 7);
+  const [y, m] = calMonth.split('-').map(Number);
+  const startDow = new Date(y, m - 1, 1).getDay();
+  const days = new Date(y, m, 0).getDate();
+  const t = today();
+  let cells = '';
+  for (let i = 0; i < startDow; i++) cells += '<div></div>';
+  for (let d = 1; d <= days; d++) {
+    const date = `${calMonth}-${pad(d)}`;
+    const future = date > t;
+    const rec = recordOf(date);
+    const swap = !!(rec && rec.towel);
+    const cls = ['cal-day', future ? 'future' : '', swap ? 'swap' : '', date === t ? 'today' : '', date === S.date ? 'sel' : ''].filter(Boolean).join(' ');
+    cells += `<button class="${cls}" data-act="cal-day" data-date="${date}" ${future ? 'disabled' : ''} aria-label="${fmtMDW(date)}${swap ? '（タオルを交換した日）' : ''}">
+      <span class="n">${d}</span><span class="c">${swap ? '交換' : ''}</span></button>`;
+  }
+  ensureMonth(calMonth);
+  return `
+    <section class="card cal" aria-label="タオル交換カレンダー">
+      <div class="cal-head">
+        <h2>タオルの交換</h2>
+        <div class="cal-nav">
+          <button data-act="cal-prev" aria-label="前の月"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <span class="m tnum">${y}年${m}月</span>
+          <button data-act="cal-next" aria-label="次の月" ${calMonth >= t.slice(0, 7) ? 'disabled' : ''}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+      </div>
+      <div class="cal-dow">${DOW.map(w => `<div>${w}</div>`).join('')}</div>
+      <div class="cal-grid">${cells}</div>
+      <div class="cal-legend">
+        <span><i style="background:var(--towel-mark)"></i>交換した日</span>
+        <span><i style="box-shadow:inset 0 0 0 2px var(--ink)"></i>今日</span>
+        <span><i class="sel"></i>表示中の日（タップで移動）</span>
+      </div>
+    </section>`;
+}
+
+// 直近 90 日より前の月を表示したときだけ、その月の記録を追加で取得する
+function ensureMonth(ym) {
+  const [y, m] = ym.split('-').map(Number);
+  const from = `${ym}-01`;
+  const to = `${ym}-${pad(new Date(y, m, 0).getDate())}`;
+  if (S.allLoaded || !S.loadedFrom || from >= S.loadedFrom || monthsLoaded.has(ym) || !S.online) return;
+  monthsLoaded.add(ym);
+  api('GET', `/api/logs?from=${from}&to=${to}`)
+    .then(({ records }) => { mergeLogs(records); if (S.tab === 'record') updateFoot(); })
+    .catch(e => { monthsLoaded.delete(ym); toast(e.message); });
+}
+
+function shiftCalMonth(n) {
+  const [y, m] = calMonth.split('-').map(Number);
+  const d = new Date(y, m - 1 + n, 1);
+  calMonth = `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
+  updateFoot();
+}
+
 async function changeDate(date) {
   if (date > today()) date = today();
   flushSaves();
   S.date = date;
+  calMonth = date.slice(0, 7);
   S.draft = null;
   render();
   if (!S.allLoaded && (!S.loadedFrom || date < S.loadedFrom)) {
@@ -1169,6 +1345,13 @@ document.addEventListener('click', e => {
   } else if (act === 'retry-save') saveNow(el.dataset.p, false);
   else if (act === 'goto-aya') setTab('aya');
   else if (act === 'towel') toggleTowel();
+  else if (act === 'cal-prev') shiftCalMonth(-1);
+  else if (act === 'cal-next') shiftCalMonth(1);
+  else if (act === 'cal-day') {
+    // タップした日の記録へ移動（入力欄が見えるよう上に戻る）
+    if (el.dataset.date !== S.date) changeDate(el.dataset.date);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   else if (act === 'wl-more') appendWeightRows();
   else if (act === 'period') {
     S.period = el.dataset.v === 'all' ? 'all' : Number(el.dataset.v);
